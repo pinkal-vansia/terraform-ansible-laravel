@@ -1,4 +1,3 @@
-{*
 #!/bin/bash
 
 until ping -c1 www.google.com &>/dev/null; do :; done
@@ -13,4 +12,4 @@ git clone https://github.com/pinkal-vansia/terraform-ansible-laravel.git /home/u
 
 cd /home/ubuntu/laravel/ansible
 
-ansible-playbook webserver.yml*}
+ansible-playbook webserver.yml

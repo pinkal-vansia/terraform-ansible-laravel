@@ -8,6 +8,15 @@
   apt: name=unzip state=installed
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
+- name: Make sure apache related packages are removed
+  tags: nginx
+  apt: name="{{ packages }}" state=absent purge=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  vars:
+    packages:
+    - apache2
+    - apache2-utils
+
 - name: Install PHP
   tags: php
   apt: name={{ item }} state=installed update_cache=yes
@@ -50,8 +59,6 @@
     repo: https://github.com/laravel/laravel.git
     dest: /var/www/html/laravel
     version: v5.7.19
-  sudo: yes
-  sudo_user: ubuntu
 
 - file: dest=/var/www/html/laravel owner=ubuntu group=ubuntu mode=u=rwX,g=rX,o=rX recurse=yes
 
@@ -60,7 +67,7 @@
     working_dir: /var/www/html/laravel
   tags: composer
   environment:
-    COMPOSER_HOME: /home/ubuntu/.composer
+    HOME: /home/ubuntu/
   sudo: yes
   sudo_user: ubuntu
 
