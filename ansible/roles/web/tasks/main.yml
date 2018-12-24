@@ -59,6 +59,8 @@
     command: install
     working_dir: /var/www/html/laravel
   tags: composer
+  environment:
+    COMPOSER_HOME: /home/ubuntu/.composer
   sudo: yes
   sudo_user: ubuntu
 
