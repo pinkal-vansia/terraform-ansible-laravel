@@ -1,5 +1,5 @@
 - hosts: localhost
-  become: true
-  become_user: root
+  sudo: true
+  sudo_user: ubuntu
   roles:
     - web

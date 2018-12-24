@@ -57,8 +57,6 @@
     command: install
     working_dir: /var/www/html/laravel
   tags: composer
-  become: true
-  become_user: ubuntu
 
 - name: create .env file
   tags: env
