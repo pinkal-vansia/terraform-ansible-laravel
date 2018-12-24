@@ -8,13 +8,6 @@
   apt: name=unzip state=installed
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
 
-- name: Make sure apache related packages are removed
-  tags: nginx
-  apt: name="{{ item }}" state=absent purge=yes
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  with_items:
-    - apache2
-
 - name: Install PHP
   tags: php
   apt: name={{ item }} state=installed update_cache=yes
@@ -28,6 +21,13 @@
     - php7.2-mysqlnd
     - php7.2-opcache
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure apache related packages are removed
+  tags: nginx
+  apt: name="{{ item }}" state=absent purge=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  with_items:
+  - apache2
 
 - name: Check if composer is installed
   tags: composer
