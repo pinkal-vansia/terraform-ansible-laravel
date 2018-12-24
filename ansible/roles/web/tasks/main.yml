@@ -10,12 +10,10 @@
 
 - name: Make sure apache related packages are removed
   tags: nginx
-  apt: name="{{ packages }}" state=absent purge=yes
+  apt: name="{{ item }}" state=absent purge=yes
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  vars:
-    packages:
+  with_items:
     - apache2
-    - apache2-utils
 
 - name: Install PHP
   tags: php
