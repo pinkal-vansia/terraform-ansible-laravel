@@ -5,7 +5,7 @@ data "template_file" "app_payload" {
 
 resource "aws_launch_template" "launch-template" {
   image_id = "${var.image_id}"
-  key_name = "id_rsa_mac"
+  key_name = "t430-ubuntu"
   instance_type = "t2.small"
 
   user_data = "${base64encode(data.template_file.app_payload.rendered)}"
