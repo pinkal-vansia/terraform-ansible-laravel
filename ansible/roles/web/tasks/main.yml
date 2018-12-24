@@ -51,9 +51,14 @@
     dest: /var/www/html/laravel
     version: v5.7.19
 
-- name: Install composer dependencies
-  tags: init
-  shell: cd /var/www/html/laravel; composer install
+- file: dest=/var/www/html/laravel owner=ubuntu group=ubuntu mode=u=rwX,g=rX,o=rX recurse=yes
+
+- composer:
+    command: install
+    working_dir: /var/www/html/laravel
+  tags: composer
+  become: true
+  become_user: ubuntu
 
 - name: create .env file
   tags: env
@@ -67,5 +72,3 @@
 - name: Run php developement server
   tags: server
   shell: cd /var/www/html/laravel; nohup php -S 0.0.0.0:80 -t public/ </dev/null >/dev/null 2>&1 &
-
-
