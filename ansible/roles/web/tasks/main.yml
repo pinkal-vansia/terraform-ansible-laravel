@@ -48,6 +48,8 @@
   tags: composer
   command: php /tmp/composer-setup.php --install-dir=/usr/bin --filename=composer
   when: composer_binary.stat.exists == false
+  environment:
+    HOME: /home/ubuntu/
 
 - name: Update to latest composer version
   tags: composer
