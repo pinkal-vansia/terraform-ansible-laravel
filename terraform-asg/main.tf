@@ -1,6 +1,6 @@
 provider "aws" {
   region = "${var.region}"
-  profile = "private-admin"
+  profile = "${var.profile}"
 }
 
 module "vpc_network" {
@@ -46,9 +46,11 @@ module "security_group_network" {
 module "launch_template_ec2"{
   source = "./modules/ec2/launch_template"
 
-  security_group_id = "${module.security_group_network.cluster_sg_id}"
-  security_group = "${module.security_group_network.name}"
-  image_id = "ami-0ac019f4fcb7cb7e6"
+  security_group_id = "${module.security_group_network.ec2_sg_id}"
+  security_group = "${module.security_group_network.ec2_sg_name}"
+  image_id = "${var.image_id}"
+  instance_type = "${var.instance_type}"
+  key_name = "${var.key_name}"
   vpc_id = "${module.vpc_network.vpc_id}"
 }
 
@@ -67,4 +69,7 @@ module "asg_ec2" {
   elb_id = "${module.elb_ec2.elb_id}"
   private_subnet_1_id = "${module.subnet_network.private_subnet_1_id}"
   private_subnet_2_id = "${module.subnet_network.private_subnet_2_id}"
+
+  instance_max_size = "${var.instance_max_size}"
+  instance_min_size = "${var.instance_min_size}"
 }

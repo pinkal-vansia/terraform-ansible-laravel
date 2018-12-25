@@ -1,10 +1,10 @@
-output "cluster_sg_id" {
-  value = "${aws_security_group.kubernetes-cluster-sg.id}"
+output "ec2_sg_id" {
+  value = "${aws_security_group.ec2-security-group.id}"
   description = "Cluster Security Group ID"
 }
 
-output "name" {
-  value = "${aws_security_group.kubernetes-cluster-sg.name}"
+output "ec2_sg_name" {
+  value = "${aws_security_group.ec2-security-group.name}"
   description = "Cluster Security Group name"
 }
 

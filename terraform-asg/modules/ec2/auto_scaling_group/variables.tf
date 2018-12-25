@@ -11,3 +11,13 @@ variable "private_subnet_1_id" {
 variable "private_subnet_2_id" {
   description = "private subnet 2 id"
 }
+
+variable "instance_max_size" {
+  description = "Maximum count of instances"
+  default = 2
+}
+
+variable "instance_min_size" {
+  description = "Minimum count of instances"
+  default = 2
+}
