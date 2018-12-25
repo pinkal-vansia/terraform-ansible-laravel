@@ -6,4 +6,22 @@
 - _Launch template_ with user_data to automatically bootstrap application using **Ansible Playbook**.
 - _ELB_ in multiple Availability zones
 - All EC2 Instances in Private Subnet.
- 
+
+####Prerequisites
+- Terraform installed.
+- EC2 key pair already created
+- AWS profile configured locally with required permissions
+
+**Steps to deploy**  
+
+```
+$ terraform init
+
+$ terraform plan \
+  -var 'key_name=KEY_NAME' \
+  -var 'profile=PROFILE_NAME'
+
+$ terraform apply \
+  -var 'key_name=KEY_NAME' \
+  -var 'profile=PROFILE_NAME'
+```
