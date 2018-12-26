@@ -45,4 +45,3 @@
   template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/pool.d/www.conf
   notify:
   - Restart php-fpm
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
