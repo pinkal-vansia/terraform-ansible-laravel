@@ -50,4 +50,4 @@
   notify:
   - Restart nginx
 
-- file: dest=/var/www/html/laravel owner=www-data group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
+- file: dest=/var/www/html/laravel owner=www-data group=www-data mode=0775 recurse=yes

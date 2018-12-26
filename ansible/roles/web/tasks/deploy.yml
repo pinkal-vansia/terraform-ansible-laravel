@@ -8,8 +8,6 @@
     dest: /var/www/html/laravel
     version: v5.7.19
 
-- file: dest=/var/www/html/laravel owner=ubuntu group=ubuntu mode=u=rwX,g=rX,o=rX recurse=yes
-
 - composer:
     command: install
     working_dir: /var/www/html/laravel
