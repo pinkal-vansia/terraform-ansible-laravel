@@ -11,8 +11,8 @@
 - name: create application key
   tags: composer
   shell: cd /var/www/html/laravel; HOME=/home/ubuntu/ composer install
-  sudo: yes
-  sudo_user: ubuntu
+  become: yes
+  become_user: ubuntu
 
 - name: create .env file
   tags: env
