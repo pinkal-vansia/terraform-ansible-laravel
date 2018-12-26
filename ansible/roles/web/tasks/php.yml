@@ -20,11 +20,6 @@
   with_items:
   - apache2
 
-- name: Make sure php-fpm is running
-  tags: php-fpm
-  service: name=php7.2-fpm state=started enabled=yes
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-
 - name: Set PHP memory limit in php.ini
   tags: php
   ini_file:
@@ -37,17 +32,16 @@
   - /etc/php/7.2/fpm/php.ini
   - /etc/php/7.2/cli/php.ini
   when: php_memory_limit is defined and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
-  notify:
-  - Restart php-fpm
 
 - name: Make sure www pool is configured
   tags: php-fpm
   template: src=php/www.conf.j2 dest=/etc/php/7.2/fpm/pool.d/www.conf
-  notify:
-  - Restart php-fpm
 
 - name: Make sure php-fpm is configured
   tags: php-fpm
   template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/php-fpm.conf
-  notify:
-  - Restart php-fpm
+
+- name: Make sure php-fpm is running
+  tags: php-fpm
+  service: name=php7.2-fpm state=started enabled=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
