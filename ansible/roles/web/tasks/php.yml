@@ -40,8 +40,14 @@
   notify:
   - Restart php-fpm
 
+- name: Make sure www pool is configured
+  tags: php-fpm
+  template: src=php/www.conf.j2 dest=/etc/php/7.2/fpm/pool.d/www.conf
+  notify:
+  - Restart php-fpm
+
 - name: Make sure php-fpm is configured
   tags: php-fpm
-  template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/pool.d/www.conf
+  template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/php-fpm.conf
   notify:
   - Restart php-fpm
