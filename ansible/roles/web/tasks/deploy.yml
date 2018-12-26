@@ -8,12 +8,9 @@
     dest: /var/www/html/laravel
     version: v5.7.19
 
-- composer:
-    command: install
-    working_dir: /var/www/html/laravel
+- name: create application key
   tags: composer
-  environment:
-    HOME: /home/ubuntu/
+  shell: cd /var/www/html/laravel; HOME=/home/ubuntu/ composer install
   sudo: yes
   sudo_user: ubuntu
 
