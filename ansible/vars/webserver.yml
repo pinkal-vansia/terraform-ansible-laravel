@@ -1,0 +1,35 @@
+# Let's Encrypt settings
+enable_ssl: false
+letsencrypt_email: somebody@somewhere.com
+
+# Extra PHP packages
+php_extra_packages:
+- php-intl
+
+# PHP memory limit
+php_memory_limit: "512M"
+
+# A list of virtual hosts
+virtualhosts:
+  blog:
+    servernames:
+    - blog.development
+    - someother.development
+    run_queue_worker: true
+    run_horizon: false
+    has_scheduled_jobs: true
+  someothersite:
+    servernames:
+    - someothersite.development
+
+# MySQL root password
+mysql_root_password: somesecret
+
+# List of MySQL databases
+mysql_databases:
+  blog:
+    mysql_user: blog
+    mysql_password: table_password
+  someothersite:
+    mysql_user: otherdbuser
+    mysql_password: table_password
