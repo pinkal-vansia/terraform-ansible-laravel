@@ -1,3 +1,8 @@
+- name: Clean artifact path
+  file:
+    state: absent
+    path: /var/www/html/laravel
+
 - git:
     repo: https://github.com/laravel/laravel.git
     dest: /var/www/html/laravel

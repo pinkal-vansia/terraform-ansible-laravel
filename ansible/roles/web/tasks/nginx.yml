@@ -29,13 +29,13 @@
 
 - name: Make sure nginx is configured
   tags: nginx
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  template: src=nginx/nginx.conf.j2 dest=/etc/nginx/nginx.conf
   notify:
   - Restart nginx
 
 - name: Make sure nginx virtual hosts are configured
   tags: nginx
-  template: src=nginx-virtualhost.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }}.conf
+  template: src=nginx/nginx-virtualhost.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }}.conf
   with_dict: "{{ virtualhosts }}"
   when: enable_ssl|default(false)|bool == false
   notify:
@@ -43,7 +43,7 @@
 
 - name: Make sure SSL nginx virtual hosts are configured
   tags: nginx
-  template: src=nginx-ssl-virtualhost.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }}.conf
+  template: src=nginx/nginx-ssl-virtualhost.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }}.conf
   with_dict: "{{ virtualhosts }}"
   when: enable_ssl|default(false)|bool == true
 
@@ -52,6 +52,6 @@
 
 - name: Create public directory
   tags: nginx
-  file: path=/var/www/{{ item.key }}/public state=directory owner=www-data group=www-data mode=0775
+  file: path=/var/www/html/laravel state=directory owner=www-data group=www-data mode=0775
   with_dict: "{{ virtualhosts }}"
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
