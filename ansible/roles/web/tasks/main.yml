@@ -1,85 +1,9 @@
-- name: Make sure git is installed
-  tags: git
-  apt: name=git state=installed
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- include: common.yml
 
-- name: Make sure unzip is installed
-  tags: unzip
-  apt: name=unzip state=installed
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- include: php.yml
 
-- name: Install PHP
-  tags: php
-  apt: name={{ item }} state=installed update_cache=yes
-  with_items:
-    - php7.2
-    - php7.2-zip
-    - php7.2-pdo
-    - php7.2-mbstring
-    - php7.2-tokenizer
-    - php7.2-xml
-    - php7.2-mysqlnd
-    - php7.2-opcache
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- include: composer.yml
 
-- name: Make sure apache related packages are removed
-  tags: nginx
-  apt: name="{{ item }}" state=absent purge=yes
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
-  with_items:
-  - apache2
+- include: deploy.yml
 
-- name: Check if composer is installed
-  tags: composer
-  stat:
-    path: /usr/bin/composer
-  register: composer_binary
-
-- name: Download Composer installer
-  tags: composer
-  when: composer_binary.stat.exists == false
-  get_url:
-    url: https://getcomposer.org/installer
-    dest: /tmp/composer-setup.php
-
-- name: Install composer
-  tags: composer
-  command: php /tmp/composer-setup.php --install-dir=/usr/bin --filename=composer
-  when: composer_binary.stat.exists == false
-  environment:
-    HOME: /home/ubuntu/
-
-- name: Update to latest composer version
-  tags: composer
-  command: composer selfupdate
-  when: composer_binary.stat.exists == true
-  changed_when: false
-
-- git:
-    repo: https://github.com/laravel/laravel.git
-    dest: /var/www/html/laravel
-    version: v5.7.19
-
-- file: dest=/var/www/html/laravel owner=ubuntu group=ubuntu mode=u=rwX,g=rX,o=rX recurse=yes
-
-- composer:
-    command: install
-    working_dir: /var/www/html/laravel
-  tags: composer
-  environment:
-    HOME: /home/ubuntu/
-  sudo: yes
-  sudo_user: ubuntu
-
-- name: create .env file
-  tags: env
-  shell: cd /var/www/html/laravel; mv .env.example .env
-
-
-- name: create application key
-  tags: key
-  shell: cd /var/www/html/laravel; php artisan key:generate
-
-- name: Run php developement server
-  tags: server
-  shell: cd /var/www/html/laravel; nohup php -S 0.0.0.0:80 -t public/ </dev/null >/dev/null 2>&1 &
+- include: nginx.yml

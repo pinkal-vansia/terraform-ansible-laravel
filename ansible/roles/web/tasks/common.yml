@@ -1,0 +1,9 @@
+- name: Make sure git is installed
+  tags: git
+  apt: name=git state=installed
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure unzip is installed
+  tags: unzip
+  apt: name=unzip state=installed
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'

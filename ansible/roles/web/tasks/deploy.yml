@@ -1,0 +1,23 @@
+- git:
+    repo: https://github.com/laravel/laravel.git
+    dest: /var/www/html/laravel
+    version: v5.7.19
+
+- file: dest=/var/www/html/laravel owner=ubuntu group=ubuntu mode=u=rwX,g=rX,o=rX recurse=yes
+
+- composer:
+    command: install
+    working_dir: /var/www/html/laravel
+  tags: composer
+  environment:
+    HOME: /home/ubuntu/
+  sudo: yes
+  sudo_user: ubuntu
+
+- name: create .env file
+  tags: env
+  shell: cd /var/www/html/laravel; mv .env.example .env
+
+- name: create application key
+  tags: key
+  shell: cd /var/www/html/laravel; php artisan key:generate
