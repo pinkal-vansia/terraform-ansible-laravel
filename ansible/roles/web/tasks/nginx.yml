@@ -50,8 +50,4 @@
   notify:
   - Restart nginx
 
-- name: Create public directory
-  tags: nginx
-  file: path=/var/www/html/laravel state=directory owner=www-data group=www-data mode=0775
-  with_dict: "{{ virtualhosts }}"
-  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+- file: dest=/var/www/html/laravel owner=www-data group=www-data mode=u=rwX,g=rX,o=rX recurse=yes
