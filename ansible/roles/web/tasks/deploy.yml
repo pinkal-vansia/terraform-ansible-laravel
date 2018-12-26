@@ -8,11 +8,11 @@
     dest: /var/www/html/laravel
     version: v5.7.19
 
-- name: create application key
+- name: Install composer dependancies
   tags: composer
   shell: cd /var/www/html/laravel; HOME=/home/ubuntu/ composer install
   become: yes
-  become_user: ubuntu
+  become_user: root
 
 - name: create .env file
   tags: env
