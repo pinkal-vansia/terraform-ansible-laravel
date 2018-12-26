@@ -7,3 +7,8 @@
   tags: unzip
   apt: name=unzip state=installed
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Ensure directory exists
+  action: file path={{ item }} state=directory mode=0775
+  with_items:
+  - "/var/log/php-fpm"

@@ -41,13 +41,4 @@
   notify:
   - Restart nginx
 
-- name: Make sure SSL nginx virtual hosts are configured
-  tags: nginx
-  template: src=nginx/nginx-ssl-virtualhost.conf.j2 dest=/etc/nginx/conf.d/{{ item.key }}.conf
-  with_dict: "{{ virtualhosts }}"
-  when: enable_ssl|default(false)|bool == true
-
-  notify:
-  - Restart nginx
-
 - file: dest=/var/www/html/laravel owner=www-data group=www-data mode=0775 recurse=yes
