@@ -41,7 +41,12 @@
   tags: php-fpm
   template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/php-fpm.conf
 
-- name: Make sure php-fpm is running
+- name: Make sure php-fpm is stopped
   tags: php-fpm
-  service: name=php7.2-fpm state=restarted enabled=yes
+  service: name=php7.2-fpm state=stopped
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure php-fpm is stopped
+  tags: php-fpm
+  service: name=php7.2-fpm state=started enabled=yes
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
