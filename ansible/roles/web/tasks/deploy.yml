@@ -21,3 +21,6 @@
 - name: create application key
   tags: key
   shell: cd /var/www/html/laravel; php artisan key:generate
+
+- name: make sure storage directory is writable
+  file: dest=/var/www/html/laravel owner=www-data group=www-data mode=0777 recurse=yes
