@@ -35,4 +35,8 @@
 
 - name: Make sure nginx is running and is started on boot
   tags: nginx
-  service: name=nginx state=started enabled=yes
+  service: name=nginx state=stopped enabled=yes
+
+- name: Make sure nginx is running and is started on boot
+  tags: nginx
+  service: name=nginx state=restarted enabled=yes
