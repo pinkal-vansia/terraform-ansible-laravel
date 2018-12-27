@@ -43,5 +43,5 @@
 
 - name: Make sure php-fpm is running
   tags: php-fpm
-  service: name=php7.2-fpm state=started enabled=yes
+  service: name=php7.2-fpm state=restarted enabled=yes
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
