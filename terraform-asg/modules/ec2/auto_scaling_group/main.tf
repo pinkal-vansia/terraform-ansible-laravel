@@ -8,9 +8,4 @@ resource "aws_autoscaling_group" "asg" {
     id = "${var.lt_id}"
     version = "$$Latest"
   }
-
-  tags {
-    Name = "${terraform.workspace}-asg"
-    Environment = "${terraform.workspace}"
-  }
 }
