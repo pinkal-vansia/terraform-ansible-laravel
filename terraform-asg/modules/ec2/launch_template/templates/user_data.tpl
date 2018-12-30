@@ -12,4 +12,4 @@ git clone https://github.com/pinkal-vansia/terraform-ansible-laravel.git /home/u
 
 cd /home/ubuntu/laravel/ansible
 
-ansible-playbook webserver.yml -vvvvv
+ansible-playbook webserver.yml -vvvvv -e "db_address=${db_address}" -e "db_name=${db_name}" -e "db_username=${db_username}" -e "db_password=${db_password}"

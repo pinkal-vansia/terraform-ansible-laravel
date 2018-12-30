@@ -14,9 +14,9 @@
   become: yes
   become_user: root
 
-- name: create .env file
+- name: Create .env file
   tags: env
-  shell: cd /var/www/html/laravel; mv .env.example .env
+  template: src=app/env.j2 dest=/var/www/html/laravel/.env
 
 - name: create application key
   tags: key
