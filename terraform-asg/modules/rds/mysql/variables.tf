@@ -21,3 +21,7 @@ variable "private_subnet_1_id" {
 variable "private_subnet_2_id" {
   description = "private subnet 2 id"
 }
+
+variable "security_group_id" {
+  description = "security group id"
+}

@@ -87,4 +87,5 @@ module "mysql_rds" {
   db_name = "${var.db_name}"
   private_subnet_1_id = "${module.subnet_network.private_subnet_1_id}"
   private_subnet_2_id = "${module.subnet_network.private_subnet_2_id}"
+  security_group_id = "${module.security_group_network.ec2_sg_id}"
 }

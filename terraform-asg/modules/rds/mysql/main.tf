@@ -19,6 +19,8 @@ resource "aws_db_instance" "default" {
   password             = "${var.root_password}"
   parameter_group_name = "default.mysql5.7"
   db_subnet_group_name = "${aws_db_subnet_group.default.name}"
+  vpc_security_group_ids = ["${var.security_group_id}"]
+  final_snapshot_identifier = "final-snapsbhot"
 
   tags {
     Name = "${terraform.workspace}-mysql"
