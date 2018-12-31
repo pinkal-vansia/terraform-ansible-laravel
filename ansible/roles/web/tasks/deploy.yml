@@ -22,5 +22,13 @@
   tags: key
   shell: cd /var/www/html/laravel; php artisan key:generate
 
+- name: run db migration
+  tags: migration
+  shell: cd /var/www/html/laravel; php artisan migrate --force
+
+- name: run db seed
+  tags: migration
+  shell: cd /var/www/html/laravel; php artisan db:seed
+
 - name: make sure storage directory is writable
   file: dest=/var/www/html/laravel/storage owner=www-data group=www-data mode=0777 recurse=yes
