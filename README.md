@@ -7,7 +7,7 @@
 - _ELB_ in multiple Availability zones
 - All EC2 Instances in Private Subnet.
 
-####Prerequisites
+#### Prerequisites
 - Terraform installed.
 - EC2 key pair already created
 - AWS profile configured locally with required permissions
