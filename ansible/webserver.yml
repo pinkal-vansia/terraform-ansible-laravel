@@ -3,3 +3,7 @@
   become_user: root
   roles:
     - web
+
+  pre_tasks:
+    - name: incluse variables
+      include_vars: "vars/webserver.yml"

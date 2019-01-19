@@ -1,0 +1,42 @@
+- name: Make sure apache related packages are removed
+  tags: nginx
+  apt: name="{{ packages }}" state=absent purge=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  vars:
+    packages:
+    - apache2
+    - apache2-utils
+
+- name: Install nginx
+  tags: nginx
+  apt: name=nginx state=installed
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure nginx user exists
+  tags: nginx
+  user:
+    name: nginx
+    comment: nginx user
+    createhome: false
+    generate_ssh_key: false
+    shell: /bin/false
+    system: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure nginx is configured
+  tags: nginx
+  template: src=nginx/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+
+- name: Make sure nginx virtual hosts are configured
+  tags: nginx
+  template: src=nginx/nginx-virtualhost.conf.j2 dest=/etc/nginx/conf.d/default.conf
+
+- file: dest=/var/www/html/laravel owner=www-data group=www-data mode=0775 recurse=yes
+
+- name: Make sure nginx is running and is started on boot
+  tags: nginx
+  service: name=nginx state=stopped enabled=yes
+
+- name: Make sure nginx is running and is started on boot
+  tags: nginx
+  service: name=nginx state=restarted enabled=yes

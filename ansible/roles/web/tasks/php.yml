@@ -1,0 +1,52 @@
+- name: Install PHP
+  tags: php
+  apt: name={{ item }} state=installed update_cache=yes
+  with_items:
+  - php7.2
+  - php7.2-zip
+  - php7.2-pdo
+  - php7.2-mbstring
+  - php7.2-tokenizer
+  - php7.2-xml
+  - php7.2-mysqlnd
+  - php7.2-opcache
+  - php7.2-fpm
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure apache related packages are removed
+  tags: nginx
+  apt: name="{{ item }}" state=absent purge=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+  with_items:
+  - apache2
+
+- name: Set PHP memory limit in php.ini
+  tags: php
+  ini_file:
+    dest: "{{ item }}"
+    section: "PHP"
+    option: memory_limit
+    value: "{{ php_memory_limit }}"
+  with_items:
+  - /etc/php/7.2/apache2/php.ini
+  - /etc/php/7.2/fpm/php.ini
+  - /etc/php/7.2/cli/php.ini
+  when: php_memory_limit is defined and (ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian')
+
+- name: Make sure www pool is configured
+  tags: php-fpm
+  template: src=php/www.conf.j2 dest=/etc/php/7.2/fpm/pool.d/www.conf
+
+- name: Make sure php-fpm is configured
+  tags: php-fpm
+  template: src=php/php-fpm.conf.j2 dest=/etc/php/7.2/fpm/php-fpm.conf
+
+- name: Make sure php-fpm is stopped
+  tags: php-fpm
+  service: name=php7.2-fpm state=stopped
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: Make sure php-fpm is stopped
+  tags: php-fpm
+  service: name=php7.2-fpm state=started enabled=yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'

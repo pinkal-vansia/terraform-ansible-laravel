@@ -30,3 +30,23 @@ variable "instance_min_size" {
   description = "Minimum EC2 instance"
   default = 2
 }
+
+variable "engine" {
+  description = "Database Engine"
+  default = "mysql"
+}
+
+variable "root_username" {
+  description = "Database root user"
+  default = "root"
+}
+
+variable "root_password" {
+  description = "Database root password"
+  default = "p!ssw0rd"
+}
+
+variable "db_name" {
+  description = "Database name"
+  default = "mydb"
+}

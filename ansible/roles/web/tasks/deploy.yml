@@ -1,0 +1,34 @@
+- name: Clean artifact path
+  file:
+    state: absent
+    path: /var/www/html/laravel
+
+- git:
+    repo: https://github.com/laravel/laravel.git
+    dest: /var/www/html/laravel
+    version: v5.7.19
+
+- name: Install composer dependancies
+  tags: composer
+  shell: cd /var/www/html/laravel; HOME=/home/ubuntu/ composer install
+  become: yes
+  become_user: root
+
+- name: Create .env file
+  tags: env
+  template: src=app/env.j2 dest=/var/www/html/laravel/.env
+
+- name: create application key
+  tags: key
+  shell: cd /var/www/html/laravel; php artisan key:generate
+
+- name: run db migration
+  tags: migration
+  shell: cd /var/www/html/laravel; php artisan migrate --force
+
+- name: run db seed
+  tags: migration
+  shell: cd /var/www/html/laravel; php artisan db:seed
+
+- name: make sure storage directory is writable
+  file: dest=/var/www/html/laravel/storage owner=www-data group=www-data mode=0777 recurse=yes

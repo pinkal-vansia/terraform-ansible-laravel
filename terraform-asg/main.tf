@@ -52,6 +52,10 @@ module "launch_template_ec2"{
   instance_type = "${var.instance_type}"
   key_name = "${var.key_name}"
   vpc_id = "${module.vpc_network.vpc_id}"
+  db_address = "${module.mysql_rds.db_address}"
+  db_name = "${var.db_name}"
+  db_username = "${var.root_username}"
+  db_password = "${var.root_password}"
 }
 
 module "elb_ec2" {
@@ -72,4 +76,16 @@ module "asg_ec2" {
 
   instance_max_size = "${var.instance_max_size}"
   instance_min_size = "${var.instance_min_size}"
+}
+
+module "mysql_rds" {
+  source = "./modules/rds/mysql"
+
+  root_password = "${var.root_password}"
+  root_username = "${var.root_username}"
+  engine = "${var.engine}"
+  db_name = "${var.db_name}"
+  private_subnet_1_id = "${module.subnet_network.private_subnet_1_id}"
+  private_subnet_2_id = "${module.subnet_network.private_subnet_2_id}"
+  security_group_id = "${module.security_group_network.ec2_sg_id}"
 }
