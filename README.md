@@ -15,6 +15,10 @@
 **Steps to deploy**  
 
 ```
+$ terraform workspace new dev
+
+$ terraform workspace select dev
+
 $ terraform init
 
 $ terraform plan \
